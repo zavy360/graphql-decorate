@@ -38,10 +38,11 @@ module GraphQL
       schema_defn.types.each do |_name, type|
         next unless type.respond_to?(:fields)
 
+        # Support new GraphQL classes:
         type.fields.each do |_name, field|
-          field_type = extract_type(field.type_class.type)
+          field_type = extract_type(field.type)
           type_attributes = GraphQL::Decorate::TypeAttributes.new(field_type)
-          field.type_class.extension(GraphQL::Decorate::FieldExtension) if type_attributes.decoratable?
+          field.extension(GraphQL::Decorate::FieldExtension) if type_attributes.decoratable?
         end
       end
     end
