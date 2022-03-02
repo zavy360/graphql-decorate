@@ -13,6 +13,8 @@ module GraphQL
       # @return [Object] Decorated object.
       def after_resolve(context:, value:, **_rest)
         return if value.nil?
+        # Don't decorate RawValues
+        return if value.is_a?(GraphQL::Execution::Interpreter::RawValue)
 
         resolve_decorated_value(value, context)
       end
