@@ -15,6 +15,8 @@ module GraphQL
         return if value.nil?
         # Don't decorate RawValues
         return value if value.is_a?(GraphQL::Execution::Interpreter::RawValue)
+        # Don't decorate already decorated values
+        return value if value.respond_to?(:decorated?) && value.decorated?
 
         resolve_decorated_value(value, context)
       end
